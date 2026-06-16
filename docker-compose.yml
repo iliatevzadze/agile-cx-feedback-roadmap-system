@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: agile_cx_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: agile_cx_roadmap
+      POSTGRES_USER: agile_cx_user
+      POSTGRES_PASSWORD: agile_cx_password
+    ports:
+      - "5437:5432"
+    volumes:
+      - agile_cx_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agile_cx_user -d agile_cx_roadmap"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  agile_cx_postgres_data:
